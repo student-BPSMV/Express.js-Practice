@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+  </head>
+  <body>
+    <form id="memberForm">
+      <label for="name">Enter your name : </label>
+      <input type="text" id="name" /> <br />
+      <br />
+
+      <label for="plan">Plan : </label>
+      <select name="plan" id="plan">
+        <option value="Basic">Basic</option>
+        <option value="VIP Plan">VIP Plan</option>
+      </select>
+      <br />
+      <br />
+      <input type="submit" />
+    </form>
+    <p id="message">loading...</p>
+
+    <script>
+        document.getElementById("memberForm").addEventListener("submit" , async function(event){
+            event.preventDefault();
+        
+        const memberName = document.getElementById("name").value;
+        const memberPlan = document.getElementById("plan").value;
+
+        const response = await fetch("/api/members" , {
+            method : "POST",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify({name:memberName , plan:memberPlan }),
+        });
+        const result = await response.json();
+
+        if(response.ok){
+            document.getElementById("message").innerText="Member Data Saved Successfully";
+            document.getElementById("memberForm").reset();
+        }
+        });
+    </script>
+  </body>
+</html>

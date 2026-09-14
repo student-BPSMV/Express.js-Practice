@@ -1,0 +1,171 @@
+Q5. Update Book Information
+
+Create:
+
+let books = [
+    { id: 1, title: "JavaScript Basics", author: "John", price: 400 },
+    { id: 2, title: "Node.js Guide", author: "David", price: 500 }
+];
+
+Create:
+
+PUT /api/books/:id
+
+Request:
+
+PUT /api/books/2
+
+Body:
+
+{
+    "title": "Advanced Node.js",
+    "price": 650
+}
+Goal
+
+Update only the fields provided in the body.
+
+So the result should be:
+
+{
+    "id": 2,
+    "title": "Advanced Node.js",
+    "author": "David",
+    "price": 650
+}
+
+Notice that author should remain unchanged.
+
+🟠 Level 3 — Add Validation
+Q6. Update Course With Validation
+Create:
+let courses = [
+    { id: 1, name: "JavaScript", duration: 3 },
+    { id: 2, name: "React", duration: 2 }
+];
+Create:
+PUT /api/courses/:id
+Body:
+{
+    "newDuration": 4
+}
+Conditions
+Find the course using req.params.id.
+Get newDuration from req.body.
+If course doesn't exist → return 404.
+If newDuration is less than 1 → return 400.
+Otherwise update the duration.
+Return the updated course.
+
+Q7. Update User Email
+
+Create:
+
+let users = [
+    { id: 1, name: "Rahul", email: "rahul@gmail.com" },
+    { id: 2, name: "Neha", email: "neha@gmail.com" }
+];
+
+Route:
+
+PUT /api/users/:id
+
+Body:
+
+{
+    "newEmail": "rahul123@gmail.com"
+}
+Conditions
+If user doesn't exist → 404
+If newEmail is missing → 400
+Otherwise update email and return the updated user.
+🔴 Level 4 — Challenge Questions
+Q8. Update Product Stock
+let products = [
+    { id: 1, name: "Laptop", price: 50000, stock: 10 },
+    { id: 2, name: "Mouse", price: 1000, stock: 25 }
+];
+
+Create:
+
+PUT /api/products/:id/stock
+
+Body:
+
+{
+    "quantity": 20
+}
+Goal
+
+If the request is:
+
+PUT /api/products/1/stock
+
+then update:
+
+stock: 10 → 20
+
+Use:
+
+req.params.id
+req.body.quantity
+
+Q9. Update a Student's Course and Age
+
+Create:
+
+let students = [
+    { id: 1, name: "John", course: "HTML", age: 20 },
+    { id: 2, name: "Sarah", course: "CSS", age: 21 },
+    { id: 3, name: "Mike", course: "JavaScript", age: 22 }
+];
+
+Route:
+
+PUT /api/students/:id
+
+Body:
+
+{
+    "newCourse": "React",
+    "newAge": 23
+}
+
+Update both fields.
+
+But add these conditions:
+
+Student doesn't exist → 404
+newCourse missing → 400
+newAge less than 18 → 400
+Otherwise → update and return student.
+🔥 Q10. Mini CRUD Challenge
+
+This one is particularly good for your current Express practice.
+
+Create:
+
+let laptops = [
+    { id: 1, brand: "Dell", price: 45000 },
+    { id: 2, brand: "HP", price: 55000 },
+    { id: 3, brand: "Lenovo", price: 60000 }
+];
+
+Create these routes:
+
+1. Get all laptops
+GET /api/laptops
+2. Get one laptop
+GET /api/laptops/:id
+3. Update laptop
+PUT /api/laptops/:id
+
+Body:
+
+{
+    "newPrice": 50000
+}
+4. Delete laptop
+DELETE /api/laptops/:id
+
+For now, don't use MongoDB. Keep everything inside the array.

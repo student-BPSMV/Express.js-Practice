@@ -1,0 +1,309 @@
+//Middleware Questions
+🟢 Level 1 — Basic Middleware
+Q1. Request Logger
+
+Create an Express server with a middleware that prints:
+
+Method: GET
+URL: /about
+
+for every incoming request.
+
+Create these routes:
+
+/
+/about
+/contact
+
+Hint: Use req.method and req.url.
+
+Q2. Simple Middleware + next()
+
+Create a middleware called welcomeMiddleware that prints:
+
+Welcome to my server!
+
+Then allows the request to continue using next().
+
+Create:
+
+GET /
+GET /about
+
+Expected behavior:
+
+Welcome to my server!
+Hello World
+
+Q3. Multiple Middleware
+
+Create two middleware functions:
+
+middleware1
+middleware2
+
+middleware1 should print:
+
+Middleware 1 executed
+
+and middleware2 should print:
+
+Middleware 2 executed
+
+Both should execute before the / route.
+
+Expected console:
+
+Middleware 1 executed
+Middleware 2 executed
+🟡 Level 2 — Query Parameter Middleware
+Q4. Check User Role
+
+Create a middleware called:
+
+checkRole
+
+The user visits:
+
+/dashboard?role=admin
+
+If the role is admin, allow access to:
+
+Welcome to Admin Dashboard
+
+Otherwise send:
+
+Access Denied
+
+Q5. Check Age
+Create middleware that checks:
+/profile?age=20
+If age is 18 or above, allow the user to access:
+Welcome to the profile
+Otherwise:
+You must be 18 or older
+Try:
+/profile?age=25
+/profile?age=16
+
+Q6. Check Login Status
+Create middleware called:
+checkLogin
+The URL will contain:
+/profile?loggedIn=true
+If loggedIn === "true":
+Welcome to your profile
+Otherwise:
+Please login first
+
+🟠 Level 3 — Route-Specific Middleware
+Q7. Admin Dashboard
+
+Create:
+
+GET /dashboard
+
+and middleware:
+
+checkAdmin
+
+The dashboard should only be accessible when:
+
+/dashboard?role=admin
+
+If the user is not an admin, send:
+
+You are not authorized to access this page
+
+Important: Apply the middleware only to /dashboard, not to every route.
+
+Q8. Protected Routes
+
+Create these routes:
+
+/
+/about
+/profile
+/admin
+
+Create middleware:
+
+checkUser
+
+Only /profile and /admin should use this middleware.
+
+The user provides:
+
+/profile?user=student
+
+If user=student, allow access.
+
+Otherwise:
+
+Please login to continue
+🔵 Level 4 — Middleware + fs
+
+These are very similar to the code you just wrote.
+
+Q9. Serve Admin HTML
+
+Create:
+
+Admin.html
+AccessDenied.html
+
+Create:
+
+checkAdmin
+
+When the user visits:
+
+/admin?role=admin
+
+serve Admin.html.
+
+If the role isn't admin, serve AccessDenied.html.
+
+So:
+
+/admin?role=admin
+        ↓
+Admin.html
+
+and:
+
+/admin?role=user
+        ↓
+AccessDenied.html
+Q10. User Dashboard
+
+Create:
+
+User.html
+Error.html
+
+Create middleware:
+
+checkUser
+
+The route should be:
+
+/dashboard?user=student
+
+If the query parameter is correct, serve User.html.
+
+Otherwise serve Error.html.
+
+🔴 Level 5 — Middleware Order
+Q11. Understand Middleware Order
+
+What will happen when this code runs?
+
+app.use((req, res, next) => {
+    console.log("Middleware 1");
+    next();
+});
+
+app.get("/", (req, res) => {
+    console.log("Home Route");
+    res.send("Home");
+});
+
+app.use((req, res, next) => {
+    console.log("Middleware 2");
+    next();
+});
+
+When you visit:
+
+http://localhost:4000/
+
+What will appear in the terminal?
+
+Don't run it first — predict the output.
+
+Q12. Find the Problem
+
+What's wrong with this middleware?
+
+app.use((req, res, next) => {
+    console.log("Request received");
+});
+
+Why won't the request reach the route?
+
+Fix it.
+
+Q13. Find the Problem
+
+What's wrong here?
+
+app.get("/about", (req, res) => {
+    res.send("About");
+});
+
+app.use((req, res, next) => {
+    res.status(404).send("Page not found");
+});
+
+Is this 404 middleware in the correct position? Explain why.
+
+🏆 Mini Project — Best Practice for You
+
+Since you're currently learning Express, I'd recommend this one:
+
+Q14. Student Portal Middleware
+
+Create an Express server with these routes:
+
+/
+ /students
+ /dashboard
+ /admin
+
+Create the following middleware:
+
+1. Logger middleware
+
+For every request print:
+
+GET /dashboard
+GET /students
+
+using:
+
+req.method
+req.url
+2. Student middleware
+
+For:
+
+/students?name=Nandini
+
+check whether name exists.
+
+If it exists → next().
+
+Otherwise:
+
+Student name required
+3. Admin middleware
+
+For:
+
+/admin?role=admin
+
+allow access.
+
+For:
+
+/admin?role=user
+
+send:
+
+Access denied
+4. 404 middleware
+
+At the very end, handle unknown routes:
+
+Page not found

@@ -1,0 +1,289 @@
+1. Validate username and email
+
+Question:
+Create an Express middleware that checks req.body.username and req.body.email.
+
+If both are provided, call next().
+If either is missing, return "Enter valid username and email".
+
+2. Validate age
+
+Question:
+Create middleware that checks the user's age.
+
+Age must be present.
+Age must be 18 or above.
+If valid → next()
+Otherwise → "You must be 18 or above".
+
+3. Validate Basic/VIP plan
+
+Question:
+Create middleware that checks req.body.plan.
+
+Allowed plans are:
+
+Basic
+VIP
+
+If the plan is anything else, return:
+
+{
+  "msg": "Invalid plan"
+}
+
+Otherwise call next().
+
+4. Validate gym member data
+
+Suppose a POST request sends:
+
+{
+  "name": "Nandini",
+  "plan": "VIP",
+  "age": 22
+}
+
+Create middleware that checks:
+
+name should not be empty.
+plan should be either "Basic" or "VIP".
+age should be 18 or above.
+
+If everything is valid, call next().
+
+5. Validate product information
+
+Question:
+Create middleware for:
+
+{
+  "name": "Laptop",
+  "price": 50000,
+  "quantity": 2
+}
+
+Conditions:
+
+Name cannot be empty.
+Price must be greater than 0.
+Quantity must be greater than 0.
+
+If any condition fails, send:
+
+{
+  "msg": "Invalid product data"
+}
+6. Validate student registration ⭐
+
+Create middleware for:
+
+{
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "marks": 85
+}
+
+Conditions:
+
+Name cannot be empty.
+Email cannot be empty.
+Marks must be between 0 and 100.
+
+If valid → next().
+
+7. Validate user role
+
+Request:
+
+{
+  "name": "Admin",
+  "role": "admin"
+}
+
+Allowed roles:
+
+admin
+user
+manager
+
+Create middleware that checks the role.
+
+If invalid:
+
+{
+  "msg": "Invalid role"
+}
+
+Otherwise call next().
+
+8. Validate login data
+
+Request:
+
+{
+  "email": "abc@gmail.com",
+  "password": "123456"
+}
+
+Create middleware that checks:
+
+Email is not empty.
+Password is not empty.
+Password must contain at least 6 characters.
+
+If valid:
+
+next()
+
+Otherwise:
+
+{
+  "msg": "Invalid login details"
+}
+9. Validate employee data
+
+Request:
+
+{
+  "name": "Nandini",
+  "department": "IT",
+  "salary": 40000
+}
+
+Create middleware with these rules:
+
+name cannot be empty.
+Department must be "IT", "HR" or "Sales".
+Salary must be greater than 10000.
+10. Multiple middleware ⭐⭐
+
+Create two middleware functions:
+
+validateUser
+checkRole
+
+Request:
+
+{
+  "name": "Nandini",
+  "role": "admin"
+}
+
+validateUser checks whether name exists.
+
+checkRole checks whether role is "admin".
+
+Use them in:
+
+app.post("/admin", validateUser, checkRole, (req, res) => {
+    // response
+});
+
+11. Query validation ⭐⭐
+
+Create middleware for this URL:
+
+/api/products?category=electronics
+
+Allowed categories:
+
+electronics
+clothing
+food
+
+If category is missing or invalid, return an error.
+
+Otherwise call next().
+
+12. ID validation ⭐⭐
+
+For this route:
+
+/api/users/:id
+
+Create middleware that checks whether id is a valid number.
+
+For example:
+
+/api/users/101   → valid
+/api/users/abc   → invalid
+
+If invalid:
+
+{
+  "msg": "Invalid user ID"
+}
+
+13. Authentication-style middleware ⭐⭐⭐
+
+Suppose the request contains:
+
+Authorization: admin123
+
+Create middleware that checks the authorization header.
+
+If it is:
+
+admin123
+
+call next().
+
+Otherwise:
+
+{
+  "msg": "Unauthorized user"
+}
+
+14. Request method middleware ⭐⭐⭐
+
+Create middleware that allows only POST requests.
+
+If:
+
+req.method === "POST"
+
+call next().
+
+Otherwise return:
+
+{
+  "msg": "Only POST requests are allowed"
+}
+15. Debugging question — very similar to your code ⭐⭐⭐
+
+What is wrong with this middleware?
+
+const validate = (req, res, next) => {
+
+    const name = req.body.name;
+    const plan = req.body.plan;
+
+    if (name !== "" && plan !== "") {
+        console.log("Valid data");
+    }
+    else if (name === "" || plan === "") {
+        res.json({
+            msg: "Invalid data"
+        });
+    }
+    else if (plan !== "Basic" || plan !== "VIP") {
+        res.json({
+            msg: "Invalid plan"
+        });
+    }
+
+    next();
+};
+
+Hint: There is a logical problem with the condition used for checking "Basic" or "VIP".
+
+The correct logic is:
+
+if (plan !== "Basic" && plan !== "VIP")
+
+not:
+
+if (plan !== "Basic" || plan !== "VIP")
+
+Because with ||, the condition becomes true even when the plan is "Basic" or "VIP".
